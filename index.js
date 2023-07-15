@@ -11,8 +11,13 @@ const config = {
 	dir: {
 		root: __dirname,
 		static: __dirname + 'static' + sep,
+        views: __dirname + 'views' + sep,
 	},
 };
+
+// use EJS templates
+app.set('view engine', 'ejs');
+app.set('views', config.dir.views);
 
 // do not identify Express
 app.disable('x-powered-by');
@@ -29,18 +34,18 @@ app.use(compression());
 
 // home page route
 app.get('/', (req, res) => {
-	res.send('Hello World!');
+	res.render('message', { title: 'Hello!' });
 });
 
 app.get('/hello/', (req, res) => {
-	res.send('Hello again!');
+	res.render( 'message', {title: 'Hello again!'});
 });
 
 app.use(express.static(config.dir.static));
 
 // 404 error
 app.use((req, res) => {
-    res.status(404).send('Not found');
+    res.render('message', { title: 'Not found!' });
 })
 
 // start server
