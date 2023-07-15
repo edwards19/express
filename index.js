@@ -29,7 +29,7 @@ app.get('/author/:authorName/book/:bookName', (req, res, next) => {
 	console.log(req.params.authorName);
 	console.log(req.params.bookName);
 	res.send('Author name and book query');
-    next();
+	next();
 });
 
 app.use((req, res, next) => {
@@ -45,14 +45,21 @@ app.get('/', (req, res) => {
 	res.render('message', { title: 'Hello World!' });
 });
 
+app.get('/n*e', (req, res) => {
+	console.log('req here', req);
+	res.render('urlpath', { urlpath: req.url });
+});
+
 // /hello/ route
 import { helloRouter } from './routes/hello.js';
 // app.use() defines the helloRouter middleware rather than a single app.get() route.
 app.use('/hello', helloRouter);
 
-app.use(express.static(config.dir.static));
+// /goodbye/ route
+import { goodbyeRouter } from './routes/goodbye.js';
+app.use('/goodbye', goodbyeRouter);
 
-console.log('static here', config.dir.static)
+app.use(express.static(config.dir.static));
 
 // 404 error
 app.use((req, res) => {
